@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_21_202757) do
+ActiveRecord::Schema.define(version: 2020_05_22_185031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(version: 2020_05_21_202757) do
     t.string "thumbnailURL"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "thumbnail_width"
+    t.integer "thumbnail_height"
   end
 
   add_foreign_key "comments", "users"

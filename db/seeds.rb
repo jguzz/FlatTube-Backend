@@ -20,7 +20,8 @@ i = 0
 while i < 50 do
     video = Video.create(title:videos[i]["snippet"]["title"], videoURL:videos[i]["player"]["embedHtml"], description:videos[i]["snippet"]["description"], 
         channelTitle:videos[i]["snippet"]["channelTitle"], views:videos[i]["statistics"]["viewCount"], commentCount:videos[i]["statistics"]["commentCount"], 
-        uploadDate:videos[i]["snippet"]["publishedAt"], thumbnailURL:videos[i]["snippet"]["thumbnails"]["default"])
+        uploadDate:videos[i]["snippet"]["publishedAt"], thumbnailURL:videos[i]["snippet"]["thumbnails"]["high"]["url"], 
+        thumbnail_width:videos[i]["snippet"]["thumbnails"]["high"]["width"], thumbnail_height:videos[i]["snippet"]["thumbnails"]["high"]["height"])
     if videos[i]["snippet"]["tags"] != nil
         videos[i]["snippet"]["tags"].map{|tag| Tag.create(video_id:video.id, tag: tag)}
     end
