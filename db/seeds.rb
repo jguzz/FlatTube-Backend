@@ -7,21 +7,23 @@ require "byebug"
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-# require 'uri'
+Tag.destroy_all
+Video.destroy_all
 
 
 key = ENV["API_KEY"]
-res = RestClient.get("https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics%2Cplayer&chart=mostPopular&key=#{key}")
+res = RestClient.get("https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics%2Cplayer&chart=mostPopular&maxResults=50&regionCode=US&key=#{key}")
 data = JSON.parse(res)
-video = data[0]
-data.each do |obj| 
-	obj.each do |key, val|
-		if key === "snippet"
-			key.each do |snipKey, snipId|
-				if snipKey
-			end
-		end
-	end
+videos=data["items"]
+
+i = 0
+while i < 50 do
+    video = Video.create(title:videos[i]["snippet"]["title"], videoURL:videos[i]["player"]["embedHtml"], description:videos[i]["snippet"]["description"], 
+        channelTitle:videos[i]["snippet"]["channelTitle"], views:videos[i]["statistics"]["viewCount"], commentCount:videos[i]["statistics"]["commentCount"], 
+        uploadDate:videos[i]["snippet"]["publishedAt"], thumbnailURL:videos[i]["snippet"]["thumbnails"]["default"])
+    if videos[i]["snippet"]["tags"] != nil
+        videos[i]["snippet"]["tags"].map{|tag| Tag.create(video_id:video.id, tag: tag)}
+    end
+    i = i+1
 end
-# puts "#{data[0]["snippet"]}"
-puts data["items"]
+puts "seeding data"
