@@ -4,6 +4,10 @@ class UsersController < ApplicationController
         @user.save
         render json:@user
     end
+    def index
+        @users = User.all
+        render json:@users
+    end
 
     def update
         
