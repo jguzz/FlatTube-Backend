@@ -18,7 +18,7 @@ class LikesController < ApplicationController
 	
 			render json:@like
 		end
-		 
+		
 		def update
 			@like.update(params.require(:like).permit!)
 			if @like.valid?
@@ -27,10 +27,10 @@ class LikesController < ApplicationController
 				flash[:errors]=@like.erors.full_messages
 			end
 		end
-	  
-		  def delete 
-				Like.find(params[:id]).delete
-			end
+	
+		def delete 
+			Like.find(params[:id]).delete
+		end
 	
 		private
 	
